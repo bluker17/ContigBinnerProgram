@@ -1,7 +1,7 @@
 # BINF6112_ContigBinningChallenge
 **UNCC BINF6112 - Programming II April 7th Challenges**
 
-Given mulitple BLAST result TSV files and a contig TXT file containing contig ids and contig lengths, contigs are filtered by bin priority, bit score, and a coverage threshold. Summary statistics are generated for each bin, as well as two bar plots displaying the number of contigs per bin and the total base pairs per bin. Default coverage threshold is set to 0.9 to ensure that the highest-quality contigs are being used for assembly at a later point. 
+Given mulitple *Bothrops insularis* BLAST result TSV files and a contig TXT file containing contig ids and contig lengths, contigs are filtered by bin priority, bit score, and a coverage threshold. Summary statistics are generated for each bin, as well as two bar plots displaying the number of contigs per bin and the total base pairs per bin. Default coverage threshold is set to 0.9 to ensure that the highest-quality contigs are being used for assembly at a later point. 
 
 
 ## License: 
@@ -81,9 +81,9 @@ bash run_test.sh
 | --------------------------------- | -------------------------------------------- | --------------------- |
 | `-i`, `--input_blast_files`       | BLAST results as TSV files |[data/Binsularis_BLAST_Apicomplexa.tsv,<br> data/Binsularis_BLAST_Hepatozoon.tsv,<br> data/Binsularis_BLAST_Mitochondrion.tsv,<br> data/Binsularis_BLAST_SexualChromosomes.tsv]|
 | `-c`, `--contig_file` | TXT file containing contig ids and contig lengths                           | data/Binsularis_contig_sizes.txt|
-| `-t`, `--threshold` | Coverage threshold float                           | 0.1|
+| `-t`, `--threshold` | Coverage threshold float                           | 0.9|
 | `-s`, `--summary_stats_file`       | TSV ouput file containing summary statistics             | output/summary_stats.tsv|
-| `-d`, `--data_frame_file` | TSV output file containing data frame used for summary statistics                    | output/data_frame.tsv|
+| `-d`, `--data_frame_file` | TSV output file containing contig classification data frame. This frame is used for summary statistics                    | output/data_frame.tsv|
 | `--contigs_barplot` | PNG output file containing a barplot of contigs per bin                    | output/contigs_per_bin.png|
 | `--bps_barplot` | PNG output file containing a barpolot of toal base pairs per bin                    | output/total_bps_per_bin.png|
 
