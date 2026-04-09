@@ -1,0 +1,9 @@
+name: bin_chal
+channels:
+- conda-forge
+dependencies:
+- matplotlib
+- numpy
+- pandas
+- python=3.11
+
