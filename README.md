@@ -1,0 +1,2 @@
+# BINF6112_ContigBinningChallenge
+Given mulitple BLAST result TSV files and a contig TXT file containing contig ids and contig lengths, contigs are filtered by bin priority, bit score, and a coverage threshold. Summary statistics are generated for each bin, as well as two bar plots displaying the number of contigs per bin and the total base pairs per bin. Default coverage threshold is set to 0.9 to ensure that the highest-quality contigs are being used for assembly at a later point.
