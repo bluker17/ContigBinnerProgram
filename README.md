@@ -1,7 +1,7 @@
-# BINF6112_ContigBinningChallenge
+# Contig Binner Program
 **UNCC BINF6112 - Programming II April 7th Challenges**
 
-Given mulitple *Bothrops insularis* BLAST result TSV files and a contig TXT file containing contig ids and contig lengths, contigs are filtered by bin priority, bit score, and a coverage threshold. Summary statistics are generated for each bin, as well as two bar plots displaying the number of contigs per bin and the total base pairs per bin. Default coverage threshold is set to 0.9 to ensure that the highest-quality contigs are being used for assembly at a later point. 
+For a draft genome assembly, when given multiple BLAST result TSV files and a contig TXT file containing contig IDs and lengths, the contigs are filtered by bin priority, bitscore, coverage threshold, and contig size threshold. Summary statistics are generated for each bin, along with two bar plots showing the number of contigs per bin and the total base pairs per bin. The default coverage threshold is set to 0.9 to ensure that only the highest-quality contigs are used. However, the user can adjust the coverage threshold to relax this restriction if needed.
 
 
 ## License: 
@@ -20,12 +20,14 @@ UNCC ID: 801484356
 
 ## Project File Structure:
 ```
-└── 📁data
-    ├── Binsularis_BLAST_Apicomplexa.tsv
-    ├── Binsularis_BLAST_Hepatozoon.tsv
-    ├── Binsularis_BLAST_Mitochondrion.tsv
-    ├── Binsularis_BLAST_SexualChromosomes.tsv
+└── 📁example_data
+    └── 📁blast_files
+        ├── Binsularis_BLAST_Apicomplexa.tsv
+        ├── Binsularis_BLAST_Hepatozoon.tsv
+        ├── Binsularis_BLAST_Mitochondrion.tsv
+        ├── Binsularis_BLAST_SexualChromosomes.tsv
     ├── Binsularis_contig_sizes.txt
+    ├── prioritization.tsv
 └── 📁example_runs
     └── 📁0.25
     └── 📁0.50
@@ -42,6 +44,7 @@ UNCC ID: 801484356
     └── 📁summary_statistics
         ├── __init__.py
         ├── summary.py
+├── .gitattributes
 ├── environment-alternative.yml
 ├── environment.yml
 ├── LICENSE
@@ -79,9 +82,11 @@ bash run_test.sh
 #### Command-Line Arguments:
 | Argument                          | Description                                  | Default               |
 | --------------------------------- | -------------------------------------------- | --------------------- |
-| `-i`, `--input_blast_files`       | BLAST results as TSV files |[data/Binsularis_BLAST_Apicomplexa.tsv,<br> data/Binsularis_BLAST_Hepatozoon.tsv,<br> data/Binsularis_BLAST_Mitochondrion.tsv,<br> data/Binsularis_BLAST_SexualChromosomes.tsv]|
-| `-c`, `--contig_file` | TXT file containing contig ids and contig lengths                           | data/Binsularis_contig_sizes.txt|
-| `-t`, `--threshold` | Coverage threshold float                           | 0.9|
+| `-i`, `--input_blast_files`       | BLAST results as TSV files |example_data/blast_files/|
+| `-c`, `--contig_file` | TXT file containing contig ids and contig lengths                           | example_data/Binsularis_contig_sizes.txt|
+| `-p`, `--priority_file` | TSV file containing bins and priority. 'Bin' corresponds to files assigned to contigs. 'priority' corresponds to numerical priority classification for each bin. The lowest numerical value roeesponds to the highest priority bin.                           | example_data/prioritization.tsv|
+| `--coverage_threshold` | Coverage threshold float. Used to filter out contigs less than the threshold.                           | 0.9|
+| `--contig_size_threshold` | Coverage threshold int. Used to filter out contigs less than a specific bp size.                           | 3000|
 | `-s`, `--summary_stats_file`       | TSV ouput file containing summary statistics             | output/summary_stats.tsv|
 | `-d`, `--data_frame_file` | TSV output file containing contig classification data frame. This frame is used for summary statistics                    | output/data_frame.tsv|
 | `--contigs_barplot` | PNG output file containing a barplot of contigs per bin                    | output/contigs_per_bin.png|
@@ -93,10 +98,10 @@ Expected Output:
 
 - Runs the program with multiple coverage thresholds. 
 - Prints output locations of each example run.
-- Prints completion statement upon all runs. 
+- Prints completion statement upon successful execution of all runs. 
 
 ## Overview:
-`data`: Contains the BLAST result TSV files and the contig size TXT file.
+`example_data`: Contains the example BLAST result TSV files and the contig size TXT file.
 
 `src`: Contains multiple subdirectories leading to modules handling the input and output data. 
 1. `reader` contains module `read_files.py` which reads in the BLAST result TSV files and contig size TXT file to merge all files into one main data frame for further analysis.
@@ -112,7 +117,7 @@ Expected Output:
 ## References
 OpenAI's ChatGPT model GPT-5.3 was used to guide coding decisions in:
 
-`reader.py`: how to convert pandas columns into numpy arrays for coverage threshold analysis, how to use .concat() to combine two pandas table as one.
+`reader.py`: how to use .query() to filter a pandas data frame, how to use .concat() to combine two pandas data frames as one.
 
 `priority.py`: how to use .sort_values() and .drop_duplicates() to effetively filter a data frame.
 

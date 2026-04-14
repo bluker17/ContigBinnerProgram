@@ -3,27 +3,34 @@
 
 import pandas as pd
 
-priority_map = {
-    "Mitochondrion_df":0,
-    "Apicomplexa_df":1,
-    "SexualChromosomes_df":2,
-    "Hepatozoon_df":1
-}
-
 class Prioritizer:
     """
     A class that filters a data frame by prioritizing contigs based on BLAST results.
     """
-    def __init__(self, main_df: pd.DataFrame):
+    def __init__(self, main_df: pd.DataFrame, priority_file: str):
         self.main_df = main_df
         self.priority_df = None
+        self.priority_file = priority_file
+        self.priority_map = {}
+
+    def load_priority_map(self):
+        """
+        Loads the priority map from the input TSV file. 
+
+        Parameters
+        ----------
+        priority_file : str
+            Path to the input TSV file containing the priority map.
+        """
+        prioritization_df = pd.read_csv(self.priority_file, sep="\t")
+        self.priority_map = dict(zip(prioritization_df["bin"], prioritization_df["priority"]))
 
     def prioritize_bin(self):
         """
         Filters the main data frame by prioritizing contigs based upon their bin. Priority is as follows: Mitochondrion > Apicomplexa > Sexual Chromosome > Diploid Chromosome
         """
         self.priority_df = self.main_df.copy()
-        self.priority_df["priority"] = self.priority_df["bin"].map(priority_map)
+        self.priority_df["priority"] = self.priority_df["bin"].map(self.priority_map)
         self.priority_df["priority"] = self.priority_df["priority"].fillna("Unclassified")
 
 
@@ -39,6 +46,7 @@ class Prioritizer:
         """
         Runs the prioritization pipeline by first generating the main data frame and then filtering it based on priority.
         """
+        self.load_priority_map()
         self.prioritize_bin()
         self.filter_by_bitscore()
         return self.priority_df
