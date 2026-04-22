@@ -1,4 +1,4 @@
-#!/bin/usr/env python3
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 import argparse, sys
 from pathlib import Path
