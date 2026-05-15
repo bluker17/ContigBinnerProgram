@@ -1,0 +1,16 @@
+.DS_store
+
+# Testing Outputs
+testing_materials/example_outputs/*
+
+# Python
+src/prioritization/__pycache__
+src/reader/__pycache__
+src/summary_statistics/__pycache__
+*pyc
+
+# Output
+output/*
+
+# Data
+data/*
