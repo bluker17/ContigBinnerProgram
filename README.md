@@ -84,21 +84,22 @@ testing_materials/run_test.sh
 4. If the above commands do not work, then please make `main.py` and `run_test.sh` executuable with the following command and retry executing the program.
 ```bash
 chmod +x main.py
-chomd +x testing_materials/run_test.sh
+chmod +x testing_materials/run_test.sh
 ```
 
 #### Command-Line Arguments:
 | Argument                          | Description                                  | Default               |
 | --------------------------------- | -------------------------------------------- | --------------------- |
 | `-i`, `--input_blast_files`       | BLAST results as TSV files |example_data/blast_files/|
-| `-c`, `--contig_file` | TXT file containing contig ids and contig lengths                           | example_data/Binsularis_contig_sizes.txt|
-| `-p`, `--priority_file` | TSV file containing bins and priority. 'Bin' corresponds to files assigned to contigs. 'priority' corresponds to numerical priority classification for each bin. The lowest numerical value roeesponds to the highest priority bin.                           | example_data/prioritization.tsv|
-| `--coverage_threshold` | Coverage threshold float. Used to filter out contigs less than the threshold.                           | 0.9|
-| `--contig_size_threshold` | Coverage threshold int. Used to filter out contigs less than a specific bp size.                           | 3000|
-| `-s`, `--summary_stats_file`       | TSV ouput file containing summary statistics             | output/summary_stats.tsv|
-| `-d`, `--data_frame_file` | TSV output file containing contig classification data frame. This frame is used for summary statistics                    | output/data_frame.tsv|
-| `--contigs_barplot` | PNG output file containing a barplot of contigs per bin                    | output/contigs_per_bin.png|
-| `--bps_barplot` | PNG output file containing a barpolot of toal base pairs per | `--verbose` | Enables detailed logging and displays warnings during execution for debugging. Default behavior is silent (no extra logs or warnings). | False |
+| `-c`, `--contig_file` | TXT file containing contig ids and contig lengths | example_data/Binsularis_contig_sizes.txt|
+| `-p`, `--priority_file` | TSV file containing bins and priority. 'Bin' corresponds to files assigned to contigs. 'priority' corresponds to numerical priority classification for each bin. The lowest numerical value roeesponds to the highest priority bin.  | example_data/prioritization.tsv|
+| `--coverage_threshold` | Coverage threshold float. Used to filter out contigs less than the threshold. | 0.9|
+| `--contig_size_threshold` | Coverage threshold int. Used to filter out contigs less than a specific bp size. | 3000|
+| `-s`, `--summary_stats_file` | TSV ouput file containing summary statistics | output/summary_stats.tsv|
+| `-d`, `--data_frame_file` | TSV output file containing contig classification data frame. This frame is used for summary statistics | output/data_frame.tsv|
+| `--contigs_barplot` | PNG output file containing a barplot of contigs per bin | output/contigs_barplot.png|
+| `--bps_barplot` | PNG output file containing a barpolot of toal base pairs per | output/bps_barplot.png|
+ `--verbose` | Enables detailed logging and displays warnings during execution for debugging. Default behavior is silent (no extra logs or warnings). | False |
 
 
 Expected Output:
@@ -124,7 +125,9 @@ Expected Output:
 
 `run_test.sh`: Bash script that executes multiple test runs at different coverage threshold values for the user.
 
-`example_runs`: Contains output file directories for different coverage threshold values when `run_test.sh` is executed.
+`example_outputs`: Contains output file directories for different coverage threshold values when `run_test.sh` is executed.
+
+`expected_example_outputs`: Contains the expected output file directories for `run_test.sh`.
 
 ## References
 ### Python Standard Library
