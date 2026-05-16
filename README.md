@@ -3,15 +3,12 @@
 
 For a draft genome assembly, when given multiple BLAST result TSV files and a contig TXT file containing contig IDs and lengths, the contigs are filtered by bin priority, bitscore, coverage threshold, and contig size threshold. Summary statistics are generated for each bin, along with two bar plots showing the number of contigs per bin and the total base pairs per bin. The default coverage threshold is set to 0.9 to ensure that only the highest-quality contigs are used. However, the user can adjust the coverage threshold to relax this restriction if needed.
 
+[Project URL](https://github.com/bluker17/BINF6112_ContigBinningChallenge)
 
 ## License: 
 **GNU General Public License Version 3**
 
-The GNU GPL is a license that ensures code is open-source. GNU GPL allows others to utilize, modify, or distribute code. If other users modify the code, then these users are expected to share their changes to the code under a GNU GPL to maintain the open-source integrity of the code.
-
-I chose to use the GNU GPL to make the code easily accessible for anyone to use, or to further build upon. 
-
-[Project URL](https://github.com/bluker17/BINF6112_ContigBinningChallenge)
+Review `LICENSE` for more information. 
 
 ## Author:
 **Bobby Luker**
@@ -20,19 +17,6 @@ UNCC ID: 801484356
 
 ## Project File Structure:
 ```
-└── 📁example_data
-    └── 📁blast_files
-        ├── Binsularis_BLAST_Apicomplexa.tsv
-        ├── Binsularis_BLAST_Hepatozoon.tsv
-        ├── Binsularis_BLAST_Mitochondrion.tsv
-        ├── Binsularis_BLAST_SexualChromosomes.tsv
-    ├── Binsularis_contig_sizes.txt
-    ├── prioritization.tsv
-└── 📁example_runs
-    └── 📁0.25
-    └── 📁0.50
-    └── 📁0.75
-    └── 📁0.90
 └── 📁output
 └── 📁src
     └── 📁prioritization
@@ -44,39 +28,63 @@ UNCC ID: 801484356
     └── 📁summary_statistics
         ├── __init__.py
         ├── summary.py
+└── 📁testing_materials
+    └── 📁example_data
+        └── 📁blast_files
+            ├── Binsularis_BLAST_Apicomplexa.tsv
+            ├── Binsularis_BLAST_Hepatozoon.tsv
+            ├── Binsularis_BLAST_Mitochondrion.tsv
+            ├── Binsularis_BLAST_SexualChromosomes.tsv
+        ├── Binsularis_contig_sizes.txt
+        ├── prioritization.tsv
+    └── 📁example_outputs
+        └── 📁0.25
+        └── 📁0.50
+        └── 📁0.75
+        └── 📁0.90
+    └── 📁expected_example_outputs
+        └── 📁0.25
+        └── 📁0.50
+        └── 📁0.75
+        └── 📁0.90
+    ├── run_test.sh
 ├── .gitattributes
-├── environment-alternative.yml
+├── .gitignore
 ├── environment.yml
 ├── LICENSE
 ├── main.py
-├── README.md
-└── run_test.sh
+└── README.md
 ```
 
 ## Testing Instructions:
-04/08/2026
-
 ### Installation
 
-For MacOS:
+1. Download or clone the repository:
+```bash
+git clone https://github.com/bluker17/ContigBinnerProgram.git
+```
+2. Create the conda environment. Conda will automatically create an environment named `bin_chal` with all the specified packages and versions.
 ```bash
 conda env create -f environment.yml
 ```
-For Windows/Linux:
-```bash
-conda env create -f environment-alternative.yml
-```
-Conda will automatically create an environment named bin_chal with all the specified packages and versions.
 
 ### Usage
-
 1. Activate the environment:
 ```bash
 conda activate bin_chal
 ```
 2. Run following command to test:
 ```bash
-bash run_test.sh
+testing_materials/run_test.sh
+```
+3. Example single-line terminal command to execute the program:
+```bash
+./main.py 
+```
+4. If the above commands do not work, then please make `main.py` and `run_test.sh` executuable with the following command and retry executing the program.
+```bash
+chmod +x main.py
+chomd +x testing_materials/run_test.sh
 ```
 
 #### Command-Line Arguments:
@@ -91,8 +99,6 @@ bash run_test.sh
 | `-d`, `--data_frame_file` | TSV output file containing contig classification data frame. This frame is used for summary statistics                    | output/data_frame.tsv|
 | `--contigs_barplot` | PNG output file containing a barplot of contigs per bin                    | output/contigs_per_bin.png|
 | `--bps_barplot` | PNG output file containing a barpolot of toal base pairs per bin                    | output/total_bps_per_bin.png|
-
-
 
 Expected Output:
 
@@ -115,10 +121,52 @@ Expected Output:
 `example_runs`: Contains output file directories for different coverage threshold values when `run_test.sh` is executed.
 
 ## References
-OpenAI's ChatGPT model GPT-5.3 was used to guide coding decisions in:
+### Python Standard Library
 
-`reader.py`: how to use .query() to filter a pandas data frame, how to use .concat() to combine two pandas data frames as one.
+**`argparse`**  
+Python Software Foundation. (2024). *argparse — Parser for command-line options, arguments and sub-commands*. Python 3 Documentation.
+https://docs.python.org/3/library/argparse.html
 
-`priority.py`: how to use .sort_values() and .drop_duplicates() to effetively filter a data frame.
+Used for parsing command-line arguments and handling CLI input configuration.
 
-`summary.py`: how to use .groupby(), .agg(), and pd.NamedAgg() when generating the summary statistics data frame.
+---
+
+**`matplotlib`**
+Hunter, J. D., Droettboom, M., & the Matplotlib development team. (2025). *Matplotlib documentation*. Matplotlib.
+https://matplotlib.org/stable/contents.html
+
+Used for creating data visualizations, charts, graphs, and plotting analytical results.
+
+---
+
+**`pandas`**
+The pandas development team. (2025). *pandas documentation*. pandas.
+https://pandas.pydata.org/docs/
+
+Used for data manipulation, tabular data processing, and CSV file handling.
+
+---
+
+**`pathlib`**
+Python Software Foundation. (2024). *pathlib — Object-oriented filesystem paths*. Python 3 Documentation.
+https://docs.python.org/3/library/pathlib.html
+
+Used for file and directory path handling.
+
+---
+
+**`sys`**
+Python Software Foundation. (2024). *sys — System-specific parameters and functions*. Python 3 Documentation.
+https://docs.python.org/3/library/sys.html
+
+Used for interacting with interpreter-level functionality such as command-line arguments and program exit handling.
+
+---
+
+### AI Assistance
+This project was developed with the help of [ChatGPT-5.3](https://chatgpt.com) by [OpenAI](https://openai.com).
+
+ChatGPT assisted with:
+- pandas code architecture and implementation
+- Docstring and documentation writing
+- Debugging and code review

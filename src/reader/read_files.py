@@ -16,6 +16,7 @@ class Reader:
         self.coverage_threshold = coverage_threshold
         self.contig_size_threshold = contig_size_threshold
 
+        self.raw_main_df = None
         self.main_df = None
         self.priority_df = None
 
@@ -24,7 +25,7 @@ class Reader:
 
     def read_contigs(self):
         """
-        Reads in contigs from a tab-delimited text file as a data frame. Then, filters out contigs that are less than or equal to 3000 bp in length. 
+        Reads in contigs from a tab-delimited text file as a data frame. Then, filters out contigs that are less than or equal to 3000 bp in length, unless otherwise specified. 
         """
         self.contigs_df = pd.read_csv(self.contigs_file, sep= "\t", header=None, names=["contig_name", "size_bp"])
         self.contigs_df = self.contigs_df.query("size_bp >= @self.contig_size_threshold")
@@ -68,11 +69,17 @@ class Reader:
         """
         Uses numpy to calculate the coverage for each contig. Adds a column to the main data frame that contains the coverage of the BLAST hits. The coverage is calculated as the length of the BLAST hit divided by the size of the contig.
         """
-        qend = self.main_df["qend"].to_numpy()
-        qstart = self.main_df["qstart"].to_numpy()
-        size_bp = self.main_df["size_bp"].to_numpy()
+        # qend = self.main_df["qend"].to_numpy()
+        # qstart = self.main_df["qstart"].to_numpy()
+        # size_bp = self.main_df["size_bp"].to_numpy()
 
-        coverage = (qend - qstart) / size_bp
+        # coverage = (qend - qstart) / size_bp
+
+        # self.main_df["coverage"] = coverage
+
+        aligned_length = (self.main_df["qend"] - self.main_df["qstart"]).abs() + 1
+
+        coverage = aligned_length / self.main_df["size_bp"]
 
         self.main_df["coverage"] = coverage
 
@@ -97,7 +104,7 @@ class Reader:
         self.generate_main_df()
         self.merge_main_df()
         self.add_coverage()
+        self.raw_main_df = self.main_df.copy()
         self.coverage_threshold_filter()
         self.priority_classification()
-        return self.priority_df
 

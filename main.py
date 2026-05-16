@@ -85,6 +85,11 @@ def parse_args() -> argparse.Namespace:
         type=int,
         help="Threshold for contig size to classify contigs. Default is 3000."
     )
+    parser.add_argument(
+    "--verbose",
+    action="store_true",
+    help="Enable detailed logs and warnings. Default is quiet mode."
+)
 
     return parser.parse_args()
 
@@ -183,11 +188,20 @@ def main() -> int:
 
 # Reading in the input files to create the main BLAST data frame.
     reader = Reader(args.input_blast_files, args.contig_file, args.coverage_threshold, args.contig_size_threshold)
-    BLAST_df = reader.read_main()
+    reader.read_main()
 
-# Filtering the BLAST data frame to include priorities based upon the coverage threshold and the bins assigned to each contig.  
-    prioritizer = Prioritizer(BLAST_df, args.priority_file)
+
+    prioritizer = Prioritizer(
+        main_df=reader.main_df,
+        contigs_df=reader.contigs_df,
+        raw_main_df=reader.raw_main_df,
+        priority_file=args.priority_file,
+        verbose=args.verbose)
+
     priority_df = prioritizer.priority_main()
+# Filtering the BLAST data frame to include priorities based upon the coverage threshold and the bins assigned to each contig.  
+    # prioritizer = Prioritizer(BLAST_df, raw_df, args.priority_file)
+    # priority_df = prioritizer.priority_main()
 
 # Generate summary statistics, visualizations, and ouput files from the priority data frame. 
     summary_stats = SummaryStatistics(priority_df, args.summary_stats_file, args.contigs_barplot, args.bps_barplot, args.data_frame_file)

@@ -7,12 +7,12 @@ for t in "${thresholds[@]}" ; do
     python3 main.py \
         -i testing_materials/example_data/blast_files/ \
         -c testing_materials/example_data/Binsularis_contig_sizes.txt \
-        -p etesting_materials/xample_data/prioritization.tsv \
-        --summary_stats_file testing_materials/example_runs/${t}/${t}_summary_stats.tsv \
-        --contigs_barplot testing_materials/example_runs/${t}/${t}_contigs_barplot.png \
-        --bps_barplot testing_materials/example_runs/${t}/${t}_bps_barplot.png \
-        --data_frame_file testing_materials/example_runs/${t}/${t}_data_frame.tsv \
-        -t $t
+        -p testing_materials/example_data/prioritization.tsv \
+        --summary_stats_file testing_materials/example_outputs/${t}/${t}_summary_stats.tsv \
+        --contigs_barplot testing_materials/example_outputs/${t}/${t}_contigs_barplot.png \
+        --bps_barplot testing_materials/example_outputs/${t}/${t}_bps_barplot.png \
+        --data_frame_file testing_materials/example_outputs/${t}/${t}_data_frame.tsv \
+        --coverage_threshold $t
 done
 
 echo -e "\nAll runs completed."
