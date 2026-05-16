@@ -1,0 +1,5 @@
+bin	total_bp	contig_count	max_bitscore	median_bitscore	mean_bitscore	max_coverage	median_coverage	mean_coverage
+Binsularis_BLAST_Mitochondrion.tsv	15756	3	12927.0	7459.0	9092.0	1.0	0.999765203099319	0.9766843642339946
+Binsularis_BLAST_SexualChromosomes.tsv	1629580	248	31493.0	2686.0	3767.2862903225805	1.0	0.6787898709021161	0.718399812540129
+Diploid Chromosome	1615711994	4687						
+Unclassified	1807623	293						

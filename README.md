@@ -79,7 +79,7 @@ testing_materials/run_test.sh
 ```
 3. Example single-line terminal command to execute the program:
 ```bash
-./main.py 
+./main.py -i data/blast_files -c contig_sizes.txt -p priority_file.tsv --coverage_threshold 0.5
 ```
 4. If the above commands do not work, then please make `main.py` and `run_test.sh` executuable with the following command and retry executing the program.
 ```bash
@@ -98,13 +98,19 @@ chomd +x testing_materials/run_test.sh
 | `-s`, `--summary_stats_file`       | TSV ouput file containing summary statistics             | output/summary_stats.tsv|
 | `-d`, `--data_frame_file` | TSV output file containing contig classification data frame. This frame is used for summary statistics                    | output/data_frame.tsv|
 | `--contigs_barplot` | PNG output file containing a barplot of contigs per bin                    | output/contigs_per_bin.png|
-| `--bps_barplot` | PNG output file containing a barpolot of toal base pairs per bin                    | output/total_bps_per_bin.png|
+| `--bps_barplot` | PNG output file containing a barpolot of toal base pairs per | `--verbose` | Enables detailed logging and displays warnings during execution for debugging. Default behavior is silent (no extra logs or warnings). | False |
+
 
 Expected Output:
 
-- Runs the program with multiple coverage thresholds. 
+- Classifies BLAST contigs into bins based upon contig size, coverage, bitscore, and provided priority.
+    - Data frame that has contigs binned is used to create summary statistics and visualizations. This data frame is saved to a TSV file.
+- Summary statistics and visualizations are generated:
+    - Summary statistics saved to TSV file.
+    - Bar chart displaying the total base pairs per bin
+    - Bar chart showing the count of contigs per bin.
 - Prints output locations of each example run.
-- Prints completion statement upon successful execution of all runs. 
+- Prints completion statement upon successful execution of run(s).
 
 ## Overview:
 `example_data`: Contains the example BLAST result TSV files and the contig size TXT file.
@@ -163,10 +169,17 @@ Used for interacting with interpreter-level functionality such as command-line a
 
 ---
 
+**`warnings`**
+Python Software Foundation. (2024). *warnings — Warning control*. Python 3 Documentation.
+https://docs.python.org/3/library/warnings.html
+
+Used to control how warning messages are handled in Python programs, including filtering, suppressing, or escalating warnings such as deprecation notices during runtime.
+
+---
+
 ### AI Assistance
-This project was developed with the help of [ChatGPT-5.3](https://chatgpt.com) by [OpenAI](https://openai.com).
+This project was developed with the help of [ChatGPT-5.3](https://chatgpt.com) and [ChatGPT-5.5](https://chatgpt.com) by [OpenAI](https://openai.com).
 
 ChatGPT assisted with:
 - pandas code architecture and implementation
-- Docstring and documentation writing
 - Debugging and code review

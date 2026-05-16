@@ -44,7 +44,7 @@ class Reader:
         self.data_frame = self.data_frame.drop(self.data_frame.columns[3], axis=1)
         self.data_frame.columns = self.col_headers
         self.data_frame.insert(0, "bin", self.tsv_df_name)
-        print(self.data_frame)
+        #print(self.data_frame)
 
     def generate_main_df(self):
         """
@@ -63,19 +63,12 @@ class Reader:
         Merges the main data frame with the contigs data frame based on the contig names.
         """
         self.main_df = pd.merge(self.contigs_df, self.main_df, left_on = "contig_name", right_on = "qseqid", how = "left")
-        print(self.data_frame["bin"].unique())
+        #print(self.data_frame["bin"].unique())
 
     def add_coverage(self):
         """
         Uses numpy to calculate the coverage for each contig. Adds a column to the main data frame that contains the coverage of the BLAST hits. The coverage is calculated as the length of the BLAST hit divided by the size of the contig.
         """
-        # qend = self.main_df["qend"].to_numpy()
-        # qstart = self.main_df["qstart"].to_numpy()
-        # size_bp = self.main_df["size_bp"].to_numpy()
-
-        # coverage = (qend - qstart) / size_bp
-
-        # self.main_df["coverage"] = coverage
 
         aligned_length = (self.main_df["qend"] - self.main_df["qstart"]).abs() + 1
 

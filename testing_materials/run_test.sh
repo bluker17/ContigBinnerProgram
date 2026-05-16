@@ -8,10 +8,10 @@ for t in "${thresholds[@]}" ; do
         -i testing_materials/example_data/blast_files/ \
         -c testing_materials/example_data/Binsularis_contig_sizes.txt \
         -p testing_materials/example_data/prioritization.tsv \
-        --summary_stats_file testing_materials/example_outputs/${t}/${t}_summary_stats.tsv \
-        --contigs_barplot testing_materials/example_outputs/${t}/${t}_contigs_barplot.png \
-        --bps_barplot testing_materials/example_outputs/${t}/${t}_bps_barplot.png \
-        --data_frame_file testing_materials/example_outputs/${t}/${t}_data_frame.tsv \
+        --summary_stats_file testing_materials/expected_example_outputs/${t}/${t}_summary_stats.tsv \
+        --contigs_barplot testing_materials/expected_example_outputs/${t}/${t}_contigs_barplot.png \
+        --bps_barplot testing_materials/expected_example_outputs/${t}/${t}_bps_barplot.png \
+        --data_frame_file testing_materials/expected_example_outputs/${t}/${t}_data_frame.tsv \
         --coverage_threshold $t
 done
 

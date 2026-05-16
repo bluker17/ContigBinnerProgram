@@ -111,8 +111,13 @@ def validate_args(args: argparse.Namespace):
 # Checking blast directory path and contained file paths
     directory = Path(args.input_blast_files)
 
+    if not directory.exists():
+        raise FileNotFoundError(f"Input directory does not exist: {directory}")
     if not directory.is_dir():
         raise ValueError("Input BLAST files path must be a directory containing TSV files.")
+    if not directory.is_relative_to("data/") and not directory.is_relative_to("testing_materials/example_data"):
+        raise FileNotFoundError("Input directory must be located in `data` directory. Please update -i call to `data/DirectoryName`.")
+
 
     bins = set()
     with Path(args.priority_file).open() as f:
@@ -133,22 +138,46 @@ def validate_args(args: argparse.Namespace):
             raise ValueError(f"Input file {file} does not exist.")
         if file.name not in bins:
             raise ValueError(f"Input file {file} is not listed in the priority file.")
+    
+
         
 # Checking the files for appropriate extensions and existence.
+    contig_file_path = Path(args.contig_file)
+    priority_file_path = Path(args.priority_file)
+    contig_bp_path = Path(args.contigs_barplot)
+    bps_bp_path = Path(args.bps_barplot)
+    sum_stats_path = Path(args.summary_stats_file)
+    data_frame_path = Path(args.data_frame_file)
+    
+
+
+    if not priority_file_path.is_relative_to("data/") and not priority_file_path.is_relative_to("testing_materials/example_data"):
+        raise FileNotFoundError("Priority file must be located in `data` directory. Please update -p call to `data/PriorityFileName.tsv`.")
+
     if not args.contig_file.endswith(".txt"):
         raise ValueError("Contig file must be a text file with .txt extension.")
+    if not contig_file_path.is_relative_to("data/") and not contig_file_path.is_relative_to("testing_materials/example_data"):
+        raise FileNotFoundError("Contig file must be located in `data` directory. Please update -c call to `data/ContigFileName.txt`.")
     
     if not args.contigs_barplot.endswith(".png"):
         raise ValueError("Contigs bar plot file must be a PNG file with .png extension.")
+    if not contig_bp_path.is_relative_to("ouput/") and not contig_bp_path.is_relative_to("testing_materials/example_output") and not contig_bp_path.is_relative_to("testing_materials/expected_example_outputs"):
+        raise FileNotFoundError("Contig barplot must be located in `output` directory. Please update --contigs_barplot call to `output/ContigBarPlotFileName.png`.")
 
     if not args.bps_barplot.endswith(".png"):
         raise ValueError("Base pairs bar plot file must be a PNG file with .png extension.")
+    if not bps_bp_path.is_relative_to("ouput/") and not bps_bp_path.is_relative_to("testing_materials/example_output") and not bps_bp_path.is_relative_to("testing_materials/expected_example_outputs"):
+        raise FileNotFoundError("Base pairs bar plot must be located in `output` directory. Please update --bps_barplot call to `output/BasePairsBarPlotFileName.png`.")
     
     if not args.summary_stats_file.endswith(".tsv"):
         raise ValueError("Summary statistics file must be a TSV file with .tsv extension.")
+    if not sum_stats_path.is_relative_to("ouput/") and not sum_stats_path.is_relative_to("testing_materials/example_output") and not sum_stats_path.is_relative_to("testing_materials/expected_example_outputs"):
+        raise FileNotFoundError("Summary statistics file must be located in `output` directory. Please update --summary_stats_file call to `output/SummaryStatsFileName.tsv`.")
     
     if not args.data_frame_file.endswith(".tsv"):
         raise ValueError("Data frame file must be a TSV file with .tsv extension.")
+    if not data_frame_path.is_relative_to("ouput/") and not data_frame_path.is_relative_to("testing_materials/example_output") and not data_frame_path.is_relative_to("testing_materials/expected_example_outputs"):
+        raise FileNotFoundError("Data frame file must be located in `output` directory. Please update --data_frame_file call to `output/DataFrameFileName.tsv`.")
     
 # Checking the thresholds.
     if not 0 <= args.coverage_threshold <= 1:
@@ -190,7 +219,7 @@ def main() -> int:
     reader = Reader(args.input_blast_files, args.contig_file, args.coverage_threshold, args.contig_size_threshold)
     reader.read_main()
 
-
+# Filtering the BLAST data frame to include priorities based upon the coverage threshold and the bins assigned to each contig.  
     prioritizer = Prioritizer(
         main_df=reader.main_df,
         contigs_df=reader.contigs_df,
@@ -199,9 +228,6 @@ def main() -> int:
         verbose=args.verbose)
 
     priority_df = prioritizer.priority_main()
-# Filtering the BLAST data frame to include priorities based upon the coverage threshold and the bins assigned to each contig.  
-    # prioritizer = Prioritizer(BLAST_df, raw_df, args.priority_file)
-    # priority_df = prioritizer.priority_main()
 
 # Generate summary statistics, visualizations, and ouput files from the priority data frame. 
     summary_stats = SummaryStatistics(priority_df, args.summary_stats_file, args.contigs_barplot, args.bps_barplot, args.data_frame_file)

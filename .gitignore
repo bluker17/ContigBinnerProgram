@@ -1,7 +1,10 @@
 .DS_store
 
 # Testing Outputs
-testing_materials/example_outputs/*
+testing_materials/example_outputs/0.25/*
+testing_materials/example_outputs/0.50/*
+testing_materials/example_outputs/0.75/*
+testing_materials/example_outputs/0.90/*
 
 # Python
 src/prioritization/__pycache__
